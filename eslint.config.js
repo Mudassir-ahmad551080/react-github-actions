@@ -18,4 +18,12 @@ export default defineConfig([
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
   },
+  {
+    // Test files vitest globals (describe, it, expect, ...) use karte hain
+    // kyunke vite.config.js -> test.globals: true set hai
+    files: ['**/*.{test,spec}.{js,jsx}'],
+    languageOptions: {
+      globals: { ...globals.browser, ...globals.vitest },
+    },
+  },
 ])
