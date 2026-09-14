@@ -4,9 +4,9 @@ import App from './App'
 
 describe('App', () => {
   it('renders the counter button with count 0 on first load', () => {
-    render(<Ap />)
+    render(<App />)
 
-    const button = screen.getByRole('button', { name: /count is 0/i })
+    const button = screen.getByRole('butt', { name: /count is 0/i })
     expect(button).toBeInTheDocument()
   })
 
