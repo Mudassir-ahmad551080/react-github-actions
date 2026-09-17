@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { render, screen, within, cleanup } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import App from './App.jsx'
@@ -19,13 +19,8 @@ const dishes = [
 
 const navLinks = ['Home', 'Menu', 'How It Works', 'About', 'Contact']
 
-beforeEach(() => {
-  vi.stubGlobal('alert', vi.fn())
-})
-
 afterEach(() => {
   cleanup()
-  vi.unstubAllGlobals()
 })
 
 /* ============================================
@@ -133,7 +128,7 @@ describe('Hero Section', () => {
     expect(screen.getByText(label)).toBeInTheDocument()
   })
 
-  it('shows the entered address in the alert on search', async () => {
+  it('shows the entered address in the search feedback on search', async () => {
     const user = userEvent.setup()
     render(<App />)
     const input = screen.getByRole('textbox', { name: /delivery address/i })
@@ -141,26 +136,25 @@ describe('Hero Section', () => {
     await user.type(input, 'Downtown Street 7')
     await user.click(screen.getByRole('button', { name: /find food/i }))
 
-    expect(globalThis.alert).toHaveBeenCalledTimes(1)
-    expect(globalThis.alert).toHaveBeenCalledWith('Finding restaurants near "Downtown Street 7"...')
+    expect(screen.getByRole('status')).toHaveTextContent('Finding restaurants near "Downtown Street 7"...')
   })
 
-  it('warns with an alert when searching with an empty address', async () => {
+  it('shows an error message when searching with an empty address', async () => {
     const user = userEvent.setup()
     render(<App />)
     await user.click(screen.getByRole('button', { name: /find food/i }))
 
-    expect(globalThis.alert).toHaveBeenCalledWith('Please enter your delivery address.')
+    expect(screen.getByRole('status')).toHaveTextContent('Please enter your delivery address.')
   })
 
-  it('warns when the address is only whitespace', async () => {
+  it('shows an error message when the address is only whitespace', async () => {
     const user = userEvent.setup()
     render(<App />)
     const input = screen.getByRole('textbox', { name: /delivery address/i })
 
     await user.type(input, '    ')
     await user.click(screen.getByRole('button', { name: /find food/i }))
-    expect(globalThis.alert).toHaveBeenCalledWith('Please enter your delivery address.')
+    expect(screen.getByRole('status')).toHaveTextContent('Please enter your delivery address.')
   })
 
   it('trims the address before searching', async () => {
@@ -170,7 +164,12 @@ describe('Hero Section', () => {
 
     await user.type(input, '  Oak Avenue 12  ')
     await user.click(screen.getByRole('button', { name: /find food/i }))
-    expect(globalThis.alert).toHaveBeenCalledWith('Finding restaurants near "Oak Avenue 12"...')
+    expect(screen.getByRole('status')).toHaveTextContent('Finding restaurants near "Oak Avenue 12"...')
+  })
+
+  it('no feedback is shown before the first search', () => {
+    render(<App />)
+    expect(screen.queryByRole('status')).not.toBeInTheDocument()
   })
 })
 

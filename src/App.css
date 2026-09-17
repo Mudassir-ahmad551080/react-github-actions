@@ -251,6 +251,29 @@ a {
   background: transparent;
 }
 
+/* Inline search feedback (replaces blocking alert) */
+.hero-content > .search-feedback {
+  display: inline-block;
+  max-width: 520px;
+  margin: -24px 0 0;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.search-feedback.success {
+  color: #1d7a43;
+  background: #e9f7ef;
+  border: 1px solid #c4e8d2;
+}
+
+.search-feedback.error {
+  color: #b3261e;
+  background: #fdecea;
+  border: 1px solid #f4c4c0;
+}
+
 .stats {
   display: flex;
   gap: 44px;
