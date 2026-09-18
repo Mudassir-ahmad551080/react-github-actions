@@ -26,7 +26,7 @@ function Hero() {
     <section id="home" className="hero">
       <div className="container hero-inner">
         <div className="hero-content">
-          <span className="badge">🚀 Free delivery on your first order</span>
+          <span className="badge">🚀 Free Delivery on your first order</span>
           <h1>Delicious food, delivered in minutes.</h1>
           <p>
             From your favorite local spots to award-winning restaurants — order in a
